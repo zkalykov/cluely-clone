@@ -1,7 +1,7 @@
 {
   "name": "ai-assistant",
   "version": "1.0.0",
-  "description": "AI Assistant — a screen- and audio-aware AI helper: a browser app (chat, meeting notes, history) plus a stealth desktop overlay.",
+  "description": "Screen- and audio-aware AI assistant in your browser — chat with screenshots, live meeting notes, and history. Powered by Claude.",
   "main": "src/main/index.js",
   "bin": {
     "cluely-clone": "src/web/server.js",
@@ -9,40 +9,31 @@
   },
   "files": [
     "src/**/*",
+    "scripts/**/*",
     "package.json",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
-  "author": "",
+  "engines": {
+    "node": ">=18"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zkalykov/cluely-clone.git"
+  },
+  "author": "zkalykov",
   "license": "MIT",
   "scripts": {
     "start": "node src/web/server.js",
     "web": "node src/web/server.js",
     "overlay": "electron .",
-    "dev": "node scripts/dev.js",
-    "dist": "electron-builder"
+    "dev": "node scripts/dev.js"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "latest",
     "dotenv": "^16.4.5"
   },
   "devDependencies": {
-    "electron": "^33.2.0",
-    "electron-builder": "^25.1.8"
-  },
-  "build": {
-    "appId": "com.local.aiassistant",
-    "productName": "AI Assistant",
-    "files": [
-      "src/**/*",
-      "package.json"
-    ],
-    "mac": {
-      "category": "public.app-category.productivity",
-      "target": "dmg",
-      "extendInfo": {
-        "NSMicrophoneUsageDescription": "AI Assistant listens to questions to transcribe and answer them.",
-        "LSUIElement": true
-      }
-    }
+    "electron": "^33.2.0"
   }
 }
