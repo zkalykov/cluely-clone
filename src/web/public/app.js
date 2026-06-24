@@ -1,4 +1,4 @@
-/* AI Assistant — browser client */
+/* letscheat — browser client */
 
 // ── Safe Markdown ────────────────────────────────────────────────────────
 function esc(s) { return s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
@@ -183,7 +183,7 @@ $('#ask-form').addEventListener('submit', async (e) => {
   askThread.append(u);
   // assistant message
   const a = el('div', 'msg assistant');
-  a.innerHTML = `<div class="avatar">${ICON.bot}</div><div class="body"><div class="role">AI Assistant</div><div class="thinking hidden"></div><div class="md"></div></div>`;
+  a.innerHTML = `<div class="avatar">${ICON.bot}</div><div class="body"><div class="role">letscheat</div><div class="thinking hidden"></div><div class="md"></div></div>`;
   askThread.append(a); askThread.scrollTop = askThread.scrollHeight;
   const thinkEl = a.querySelector('.thinking'); const mdEl = a.querySelector('.md'); mdEl.innerHTML = TYPING;
 
@@ -229,14 +229,14 @@ function startRec() {
   rec.onend = () => { if (listening) { try { rec.start(); } catch { /* noop */ } } };
   try { rec.start(); } catch { /* noop */ }
   listening = true;
-  $('#mt-toggle').textContent = '■ Stop listening'; $('#mt-toggle').classList.add('rec');
+  $('#mt-toggle-label').textContent = 'Stop listening'; $('#mt-toggle').classList.add('rec');
   mtStatus('Listening…');
   autoTimer = setInterval(() => { if ($('#mt-auto').checked && finalText.length - lastSummarizedLen > 350) summarize(); }, 25000);
 }
 function stopRec() {
   listening = false; try { rec && rec.stop(); } catch { /* noop */ }
   clearInterval(autoTimer); autoTimer = null;
-  $('#mt-toggle').textContent = '● Start listening'; $('#mt-toggle').classList.remove('rec');
+  $('#mt-toggle-label').textContent = 'Start listening'; $('#mt-toggle').classList.remove('rec');
   mtStatus('Stopped.');
 }
 $('#mt-toggle').addEventListener('click', () => (listening ? stopRec() : startRec()));

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// AI Assistant — local web app.
+// letscheat — local web app.
 // A dependency-free Node HTTP server that serves the browser UI and exposes a
 // small API backed by the same Claude engine the overlay uses (terminal `claude`
 // login, an API key, or a token — all auto-detected via engine.js).
@@ -156,7 +156,7 @@ server.listen(PORT, () => {
   const authColor = auth.ok ? c.ok : c.warn;
   const line = `${c.bar}────────────────────────────────────────────${c.reset}`;
   console.log('');
-  console.log(`  ${c.accent}${c.bold}◆  AI Assistant${c.reset}  ${c.dim}· local server${c.reset}`);
+  console.log(`  ${c.accent}${c.bold}◆  letscheat${c.reset}  ${c.dim}· local server${c.reset}`);
   console.log(`  ${line}`);
   console.log(`  ${c.dim}Open${c.reset}   ${c.bold}${c.accent}${link}${c.reset}`);
   console.log(`  ${c.dim}Auth${c.reset}   ${authColor}${auth.label}${c.reset}`);

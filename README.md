@@ -1,4 +1,4 @@
-# AI Assistant
+# letscheat
 
 A screen- and audio-aware AI assistant that runs in your browser. Ask questions with
 screenshots, get live meeting notes, and keep a history — powered by Claude. It runs entirely
@@ -8,7 +8,7 @@ account to set up.
 ```
 $ letscheat
 
-  ◆  AI Assistant  · local server
+  ◆  letscheat  · local server
   ────────────────────────────────────────────
   Open   http://localhost:8765
   Auth   terminal claude (CLI)
