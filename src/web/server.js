@@ -6,7 +6,7 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
-const { exec } = require('child_process');
+const { exec, spawn } = require('child_process');
 
 // Load .env from the current directory and from the package root (so the
 // `letscheat` command works no matter where it's launched from).
@@ -21,7 +21,21 @@ const argVal = (n) => { const i = args.indexOf(n); return i >= 0 ? args[i + 1] :
 const PORT = parseInt(argVal('--port') || process.env.PORT || '8765', 10);
 // Do NOT open a browser by default — just print the link. Opt in with --open.
 const OPEN = args.includes('--open') || process.env.CLUELY_OPEN === '1';
+const NO_OVERLAY = args.includes('--no-overlay') || process.env.LETSCHEAT_NO_OVERLAY === '1';
 const PUBLIC = path.join(__dirname, 'public');
+
+// Launch the desktop overlay (Electron) alongside the web app, if available.
+function launchOverlay() {
+  let electronPath;
+  try { electronPath = require('electron'); } catch { electronPath = null; }
+  if (typeof electronPath !== 'string') {
+    console.log('  (desktop overlay needs Electron — running web app only)\n');
+    return;
+  }
+  const root = path.join(__dirname, '..', '..');
+  const child = spawn(electronPath, [root], { cwd: root, stdio: 'inherit' });
+  child.on('error', (e) => console.log(`  (could not launch overlay: ${e.message})`));
+}
 
 const MIME = {
   '.html': 'text/html; charset=utf-8',
@@ -163,4 +177,5 @@ server.listen(PORT, () => {
   console.log(`  ${c.dim}Stop${c.reset}   ${c.dim}Ctrl+C${c.reset}`);
   console.log('');
   if (process.platform === 'darwin' && OPEN) exec(`open ${link}`);
+  if (!NO_OVERLAY) launchOverlay();
 });

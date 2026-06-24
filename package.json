@@ -1,14 +1,13 @@
 {
   "name": "letscheat",
   "version": "1.0.0",
-  "description": "Screen- and audio-aware AI assistant in your browser — chat with screenshots, live meeting notes, and history. Powered by Claude.",
+  "description": "Screen- and audio-aware AI assistant — a browser app plus a desktop overlay. Powered by Claude.",
   "main": "src/main/index.js",
   "bin": {
     "letscheat": "src/web/server.js"
   },
   "files": [
     "src/**/*",
-    "scripts/**/*",
     "package.json",
     "README.md",
     "LICENSE"
@@ -23,16 +22,13 @@
   "author": "zkalykov",
   "license": "MIT",
   "scripts": {
-    "start": "node src/web/server.js",
-    "web": "node src/web/server.js",
+    "web": "node src/web/server.js --no-overlay",
     "overlay": "electron .",
-    "dev": "node scripts/dev.js"
+    "dev": "node src/web/server.js"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "latest",
-    "dotenv": "^16.4.5"
-  },
-  "devDependencies": {
+    "dotenv": "^16.4.5",
     "electron": "^33.2.0"
   }
 }
