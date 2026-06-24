@@ -1,9 +1,10 @@
 # letscheat
 
-A screen- and audio-aware AI assistant that runs in your browser. Ask questions with
-screenshots, get live meeting notes, and keep a history — powered by Claude. It runs entirely
-on your machine and reuses your terminal Claude login, so there's nothing to paste and no
-account to set up.
+A **1‑to‑1 clone of [Cluely](https://cluely.com) and Interview Hacker** — a screen- and
+audio-aware AI assistant. It pops up an invisible, always‑on‑top desktop overlay (kept out of
+screen shares) **and** a browser app: ask questions about what's on your screen, get real‑time
+answers, live meeting notes, and history. Powered by Claude, it runs entirely on your machine and
+reuses your terminal Claude login, so there's nothing to paste and no account to set up.
 
 ```
 $ letscheat
