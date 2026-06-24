@@ -1,4 +1,4 @@
-/* letscheat — browser client */
+/* AI Assistant — browser client */
 
 // ── Safe Markdown ────────────────────────────────────────────────────────
 function esc(s) { return s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
@@ -183,7 +183,7 @@ $('#ask-form').addEventListener('submit', async (e) => {
   askThread.append(u);
   // assistant message
   const a = el('div', 'msg assistant');
-  a.innerHTML = `<div class="avatar">${ICON.bot}</div><div class="body"><div class="role">letscheat</div><div class="thinking hidden"></div><div class="md"></div></div>`;
+  a.innerHTML = `<div class="avatar">${ICON.bot}</div><div class="body"><div class="role">AI Assistant</div><div class="thinking hidden"></div><div class="md"></div></div>`;
   askThread.append(a); askThread.scrollTop = askThread.scrollHeight;
   const thinkEl = a.querySelector('.thinking'); const mdEl = a.querySelector('.md'); mdEl.innerHTML = TYPING;
 
@@ -283,7 +283,7 @@ $('#mt-ask-form').addEventListener('submit', async (e) => {
 });
 
 // ── History (localStorage) ──────────────────────────────────────────────────
-const HKEY = 'letscheat-history-v1';
+const HKEY = 'cluely-clone-history-v1';
 function loadHistory() { try { return JSON.parse(localStorage.getItem(HKEY)) || []; } catch { return []; } }
 function saveHistory(item) {
   const h = loadHistory();

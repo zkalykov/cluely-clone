@@ -262,7 +262,7 @@ function printBanner() {
   const auth = engine.describe();
   const ac = tty ? (auth.ok ? '\x1b[38;5;78m' : '\x1b[38;5;179m') : '';
   console.log('');
-  console.log(`  ${b}${a}◆  letscheat${r}  ${d}· overlay${r}`);
+  console.log(`  ${b}${a}◆  AI Assistant${r}  ${d}· overlay${r}`);
   console.log(`  ${bar}────────────────────────────────────────────${r}`);
   console.log(`  ${d}Show / hide${r}   ${b}⌘ \\${r}   ${d}— hide it from view${r}`);
   console.log(`  ${d}Type${r}          ${b}⌘ ⇧ I${r}`);
