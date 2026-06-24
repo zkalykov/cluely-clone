@@ -1,4 +1,4 @@
-# AI Assistant
+# letscheat
 
 A screen- and audio-aware AI assistant that runs in your browser. Ask questions with
 screenshots, get live meeting notes, and keep a history — powered by Claude. It runs entirely
@@ -6,9 +6,9 @@ on your machine and reuses your terminal Claude login, so there's nothing to pas
 account to set up.
 
 ```
-$ cluely-clone
+$ letscheat
 
-  ◆  AI Assistant  · local server
+  ◆  letscheat  · local server
   ────────────────────────────────────────────
   Open   http://localhost:8765
   Auth   terminal claude (CLI)
@@ -19,16 +19,16 @@ Open the link in Chrome or Edge. That's the whole setup.
 
 ## Install
 
-macOS or Linux, Node 18+. Not on npm yet — install straight from GitHub:
+macOS or Linux, Node 18+. Not on npm yet, so install straight from GitHub:
 
 ```sh
-npm install -g github:zkalykov/cluely-clone
+npm install -g github:zkalykov/letscheat
 ```
 
-Then run `cluely-clone`. To try it without installing anything:
+Then run `letscheat`. To try it without installing anything:
 
 ```sh
-npx github:zkalykov/cluely-clone
+npx github:zkalykov/letscheat
 ```
 
 It prints a `http://localhost:8765` link and waits — it does **not** open a browser. Pass
@@ -66,42 +66,32 @@ The web app needs nothing special — the browser prompts for the **microphone**
 you start a meeting, and for screen access when you use *capture screen*. Use **Chrome or Edge**
 for the Meeting tab (Safari and Firefox lack the in-browser speech API).
 
-## Commands & flags
+## Flags
 
-| command / flag | meaning |
+| flag | meaning |
 |---|---|
-| `cluely-clone` | start the web app; print the link (no auto-open) |
-| `cluely-clone --open` | also open it in your browser |
-| `cluely-clone --port N` | listen on a different port (default 8765) |
-| `npm run overlay` | the optional stealth desktop overlay (see below) |
-| `npm run dev` | run the web app **and** the overlay together |
-
-## The desktop overlay (optional)
-
-A second way to use it: a transparent, always-on-top **Electron overlay** that stays out of
-screen shares and recordings (macOS content protection). It answers screenshots and spoken
-questions with global hotkeys, and is invisible to Zoom/Meet/Teams. Run it with `npm run overlay`
-(requires the dev install below). Its controls are printed to the terminal on launch; `⌘\` hides
-it from view, `⌘W` only hides (won't quit), `⌘⇧Q` quits.
+| `--open` | also open the link in your browser |
+| `--port N` | listen on this port (default 8765) |
 
 ## Development
 
 ```sh
-git clone https://github.com/zkalykov/cluely-clone && cd cluely-clone
+git clone https://github.com/zkalykov/letscheat && cd letscheat
 npm install
-npm link          # makes the `cluely-clone` command available
-npm start         # web app   ·   npm run dev = web + overlay
+npm link          # makes the `letscheat` command available
+letscheat         # or: npm start
 ```
 
-Dependencies are minimal: `@anthropic-ai/sdk` and `dotenv` for the web app, plus `electron`
+There's also an optional stealth desktop overlay (a transparent, always-on-top Electron window
+that stays out of screen shares) — run it with `npm run overlay`, or both together with
+`npm run dev`. Dependencies are minimal: `@anthropic-ai/sdk` and `dotenv`, plus `electron`
 (dev only) for the overlay. Icons are [Lucide](https://lucide.dev); the typeface is
 [General Sans](https://www.fontshare.com/fonts/general-sans).
 
 ## Notes
 
-Built with Claude. Use it honestly — it's made for interview and exam **practice**, coding
-drills, accessibility, and meeting notes, not for deceiving a live interviewer or proctored
-exam.
+Built with Claude. Use it honestly — it's meant for interview and exam **practice**, coding
+drills, accessibility, and meeting notes.
 
 ## License
 
