@@ -11,6 +11,7 @@ let win = null;
 let pinned = true;           // true = always clickable (default); false = hover-to-interact (click-through except over the panel)
 let abortCurrent = null;     // { fn } token owned by the in-flight generation
 let inFlight = null;         // promise that settles when the in-flight generation ends
+let quitting = false;        // true only when we're really quitting (so ⌘W can't close it)
 
 // Pending screenshots queued for the next question.
 // Each item: { id, data (full-res base64 PNG), thumb (small data URL) }.
@@ -250,6 +251,30 @@ ipcMain.on('cluely:listening-state', (_e, on) =>
 // Set CLUELY_STEALTH=0 to run as a normal Dock app if typing ever misbehaves.
 const STEALTH = (process.env.CLUELY_STEALTH || '1') !== '0';
 
+// Print the overlay's controls to the terminal it was launched from.
+function printBanner() {
+  const tty = process.stdout.isTTY;
+  const a = tty ? '\x1b[38;5;111m' : '';
+  const d = tty ? '\x1b[2m' : '';
+  const b = tty ? '\x1b[1m' : '';
+  const r = tty ? '\x1b[0m' : '';
+  const bar = tty ? '\x1b[38;5;240m' : '';
+  const auth = engine.describe();
+  const ac = tty ? (auth.ok ? '\x1b[38;5;78m' : '\x1b[38;5;179m') : '';
+  console.log('');
+  console.log(`  ${b}${a}◆  AI Assistant${r}  ${d}· overlay${r}`);
+  console.log(`  ${bar}────────────────────────────────────────────${r}`);
+  console.log(`  ${d}Show / hide${r}   ${b}⌘ \\${r}   ${d}— hide it from view${r}`);
+  console.log(`  ${d}Type${r}          ${b}⌘ ⇧ I${r}`);
+  console.log(`  ${d}Capture${r}       ${b}⌘ H${r}   ${d}· Solve${r}  ${b}⌘ ⏎${r}`);
+  console.log(`  ${d}Listen${r}        ${b}⌘ ⇧ L${r}`);
+  console.log(`  ${d}Quit${r}          ${b}⌘ ⇧ Q${r}   ${d}(⌘W only hides — it won't quit)${r}`);
+  console.log(`  ${d}Auth${r}          ${ac}${auth.label}${r}`);
+  console.log('');
+}
+
+app.on('before-quit', () => { quitting = true; });
+
 app.whenReady().then(() => {
   if (process.platform === 'darwin' && STEALTH) {
     app.dock?.hide();
@@ -260,11 +285,16 @@ app.whenReady().then(() => {
   applyPinned();
   win.webContents.on('did-finish-load', pushInitialState);
 
+  // ⌘W (or any window-close) hides the overlay instead of closing/quitting it.
+  win.on('close', (e) => { if (!quitting) { e.preventDefault(); win.hide(); } });
+
   shortcuts.register({
     addScreenshot, solveQueue, clearQueue, toggleListen,
     toggleVisible, toggleInteract: togglePinned, focusInput, reset, move, scroll,
     quit: () => app.quit(),
   });
+
+  printBanner();
 });
 
 app.on('will-quit', () => globalShortcut.unregisterAll());
