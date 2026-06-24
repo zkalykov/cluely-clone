@@ -18,7 +18,7 @@
     "start": "node src/web/server.js",
     "web": "node src/web/server.js",
     "overlay": "electron .",
-    "dev": "electron . --dev",
+    "dev": "node scripts/dev.js",
     "dist": "electron-builder"
   },
   "dependencies": {
