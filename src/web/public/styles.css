@@ -55,7 +55,9 @@ button { font-family: inherit; }
 }
 .brand { display: flex; align-items: center; gap: 11px; padding: 6px 8px 16px; }
 .brand img { border-radius: 8px; box-shadow: var(--sh-1); }
+.brand-text { display: flex; flex-direction: column; line-height: 1.25; min-width: 0; }
 .brand-name { font-weight: 650; letter-spacing: 0.2px; font-size: 14.5px; }
+.brand-sub { font-size: 10.5px; font-weight: 500; color: var(--fg-3); letter-spacing: 0.1px; }
 .side-label { font-size: 10px; font-weight: 600; letter-spacing: 1.4px; text-transform: uppercase; color: var(--fg-3); padding: 8px 10px 6px; }
 #nav { display: flex; flex-direction: column; gap: 2px; }
 .nav-item {
