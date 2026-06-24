@@ -43,6 +43,25 @@ const ICON = {
 const EMPTY_ASK = `<div class="empty"><div class="empty-mark"><svg ${SVG} width="22" height="22">`
   + '<path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg></div>'
   + '<h2>How can I help?</h2><p>Ask anything, paste or attach a screenshot, or capture your screen.</p></div>';
+const TYPING = '<span class="typing"><i></i><i></i><i></i></span>';
+
+// Add a "Copy" button to every code block inside `root`.
+function enhanceCode(root) {
+  root.querySelectorAll('pre.code').forEach((pre) => {
+    if (pre.querySelector('.copy-btn')) return;
+    const code = pre.querySelector('code');
+    if (!code) return;
+    const btn = el('button', 'copy-btn'); btn.type = 'button'; btn.textContent = 'Copy';
+    btn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(code.textContent);
+        btn.textContent = 'Copied'; btn.classList.add('done');
+        setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('done'); }, 1400);
+      } catch { btn.textContent = 'Copy failed'; }
+    });
+    pre.appendChild(btn);
+  });
+}
 
 // ── Navigation ───────────────────────────────────────────────────────────
 document.querySelectorAll('.nav-item').forEach((b) => {
@@ -166,7 +185,7 @@ $('#ask-form').addEventListener('submit', async (e) => {
   const a = el('div', 'msg assistant');
   a.innerHTML = `<div class="avatar">${ICON.bot}</div><div class="body"><div class="role">AI Assistant</div><div class="thinking hidden"></div><div class="md"></div></div>`;
   askThread.append(a); askThread.scrollTop = askThread.scrollHeight;
-  const thinkEl = a.querySelector('.thinking'); const mdEl = a.querySelector('.md'); mdEl.textContent = '…';
+  const thinkEl = a.querySelector('.thinking'); const mdEl = a.querySelector('.md'); mdEl.innerHTML = TYPING;
 
   const images = attachments.map((x) => x.b64);
   askInput.value = ''; autoGrow(askInput); attachments = []; renderAttachments();
@@ -179,7 +198,7 @@ $('#ask-form').addEventListener('submit', async (e) => {
       else if (event === 'error') { mdEl.innerHTML = `<p class="err">⚠ ${esc(data.message || 'error')}</p>`; }
     });
   } catch (err) { mdEl.innerHTML = `<p class="err">⚠ ${esc(String(err))}</p>`; }
-  if (raw) { mdEl.innerHTML = md(raw); saveHistory({ type: 'ask', title: text || 'Image question', body: raw }); }
+  if (raw) { mdEl.innerHTML = md(raw); enhanceCode(mdEl); saveHistory({ type: 'ask', title: text || 'Image question', body: raw }); }
   asking = false; $('#ask-send').disabled = false;
 });
 
@@ -229,7 +248,7 @@ async function summarize() {
   try {
     const r = await fetch('/api/summarize', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ transcript: finalText }) });
     const j = await r.json();
-    if (j.summary) { lastSummary = j.summary; sEl.innerHTML = `<div class="md">${md(j.summary)}</div>`; }
+    if (j.summary) { lastSummary = j.summary; sEl.innerHTML = `<div class="md">${md(j.summary)}</div>`; enhanceCode(sEl); }
     mtStatus(listening ? 'Listening…' : 'Stopped.');
   } catch { mtStatus('Summarize failed.'); }
 }
@@ -258,7 +277,7 @@ $('#mt-ask-form').addEventListener('submit', async (e) => {
   try {
     const r = await fetch('/api/ask-meeting', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ transcript: finalText, question: q }) });
     const j = await r.json();
-    block.innerHTML = `<p><strong>Q:</strong> ${esc(q)}</p>` + md(j.answer || j.error || '(no answer)');
+    block.innerHTML = `<p><strong>Q:</strong> ${esc(q)}</p>` + md(j.answer || j.error || '(no answer)'); enhanceCode(block);
   } catch (err) { block.innerHTML = `<p class="err">⚠ ${esc(String(err))}</p>`; }
   sEl.scrollTop = sEl.scrollHeight;
 });
@@ -296,5 +315,5 @@ function openHistory(item) {
   if (item.transcript) {
     const t = el('div', 'md'); t.innerHTML = '<h3>Transcript</h3>' + `<p>${esc(item.transcript)}</p>`; histList.append(t);
   }
-  if (item.body) { const b = el('div', 'md'); b.innerHTML = (item.type === 'meeting' ? '<h3>Notes</h3>' : '') + md(item.body); histList.append(b); }
+  if (item.body) { const b = el('div', 'md'); b.innerHTML = (item.type === 'meeting' ? '<h3>Notes</h3>' : '') + md(item.body); histList.append(b); enhanceCode(b); }
 }

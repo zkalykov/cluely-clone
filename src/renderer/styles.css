@@ -95,6 +95,11 @@ pre.code code { display: block; padding: 12px; overflow-x: auto; font-family: "S
 #placeholder { color: var(--fg-2); }
 #placeholder .ph-title { color: var(--fg); font-weight: 650; font-size: 14px; margin: 0 0 14px; }
 #placeholder p { margin: 10px 0; line-height: 1.5; }
+.tips { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-direction: column; gap: 9px; }
+.tips li { display: flex; align-items: center; gap: 12px; font-size: 12.5px; color: var(--fg-2); }
+.tips .k { flex: 0 0 80px; display: flex; gap: 3px; }
+.tips .t { color: var(--fg-2); }
+.tips-more { font-size: 11.5px; color: var(--fg-3); margin: 15px 0 0; }
 .auth-note { margin-top: 16px !important; padding-top: 11px; border-top: 1px solid var(--line); font-size: 11px; color: var(--fg-3); }
 .auth-note.ok { color: var(--fg-2); }
 .auth-note.warn { color: #E0A85C; }
