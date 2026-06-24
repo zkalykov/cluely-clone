@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'none'; style-src 'self' 'unsafe-inline'; script-src 'self'; img-src 'self' data:;" />
+  <title>AI Assistant</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="pinned">
+  <div id="panel">
+    <header id="header">
+      <span id="dot"></span>
+      <span id="title">AI Assistant</span>
+      <span id="status"></span>
+      <span id="spacer"></span>
+      <div id="tools">
+        <button id="btn-capture" class="icon-btn" title="Add screenshot  (⌘/Ctrl+H)" aria-label="Add screenshot">
+          <svg viewBox="0 0 24 24" width="15" height="15"><path fill="currentColor" d="M9 3 7.2 5H4a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-3.2L15 3H9Zm3 5.5A4.5 4.5 0 1 1 7.5 13 4.5 4.5 0 0 1 12 8.5Zm0 2A2.5 2.5 0 1 0 14.5 13 2.5 2.5 0 0 0 12 10.5Z"/></svg>
+        </button>
+        <button id="btn-solve" class="icon-btn accent" title="Solve screenshots  (⌘/Ctrl+Enter)" aria-label="Solve">
+          <svg viewBox="0 0 24 24" width="15" height="15"><path fill="currentColor" d="m13 2-9 12h6l-2 8 9-12h-6l2-8Z"/></svg>
+        </button>
+        <button id="btn-type" class="icon-btn" title="Type a question  (⌘/Ctrl+Shift+I)" aria-label="Type a question">
+          <svg viewBox="0 0 24 24" width="15" height="15"><path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25Zm17.71-9.96a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83Z"/></svg>
+        </button>
+        <button id="btn-listen" class="icon-btn" title="Listen  (⌘/Ctrl+Shift+L)" aria-label="Listen">
+          <svg viewBox="0 0 24 24" width="15" height="15"><path fill="currentColor" d="M12 14a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v5a3 3 0 0 0 3 3Zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-3.08A7 7 0 0 0 19 11h-2Z"/></svg>
+        </button>
+        <button id="btn-clear" class="icon-btn" title="Clear screenshots  (⌘/Ctrl+Shift+X)" aria-label="Clear screenshots">
+          <svg viewBox="0 0 24 24" width="15" height="15"><path fill="currentColor" d="M9 3v1H4v2h16V4h-5V3H9ZM6 8l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2L18 8H6Z"/></svg>
+        </button>
+        <span class="divider"></span>
+        <button id="mode-btn" class="pill-btn" title="Pinned — always clickable. Click for AUTO (click-through). (⌘/Ctrl+Shift+Space)" aria-label="Pin or auto click-through" aria-pressed="true">PINNED</button>
+        <button id="help-btn" class="pill-btn" title="Hotkeys" aria-label="Hotkeys" aria-expanded="false">?</button>
+      </div>
+    </header>
+
+    <section id="shots" class="hidden"></section>
+
+    <section id="thinking" class="hidden">
+      <div class="section-label">Thinking</div>
+      <div id="thinking-body"></div>
+    </section>
+
+    <main id="scroll">
+      <div id="answer"></div>
+      <div id="placeholder">
+        <p class="ph-title">Ready when you are.</p>
+        <p>Drag the top bar to move it. The buttons above do everything — no shortcuts needed.</p>
+        <p><strong>Camera</strong> adds a screenshot (stack several) &nbsp;·&nbsp; <strong>Bolt</strong> solves them.</p>
+        <p>Or type a question below. <strong>PINNED</strong> stays clickable; click it for <strong>AUTO</strong> (clicks pass through to the app behind).</p>
+        <p class="auth-note" id="auth-note"></p>
+      </div>
+    </main>
+
+    <div id="help" class="hidden">
+      <div class="section-label">Hotkeys</div>
+      <ul id="help-list"></ul>
+    </div>
+
+    <footer id="footer">
+      <textarea id="input" rows="1" placeholder="Ask a follow-up…  (Enter to send, Shift+Enter = newline)"></textarea>
+    </footer>
+  </div>
+  <script src="renderer.js"></script>
+</body>
+</html>

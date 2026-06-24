@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Assistant</title>
+  <link rel="icon" href="/logo.svg" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- ── Sidebar / menu ─────────────────────────────────────────── -->
+    <aside id="sidebar">
+      <div class="brand">
+        <img src="/logo.svg" width="26" height="26" alt="" />
+        <span class="brand-name">AI Assistant</span>
+      </div>
+
+      <nav id="nav">
+        <button class="nav-item active" data-view="ask">
+          <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <span>Ask</span>
+        </button>
+        <button class="nav-item" data-view="meeting">
+          <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
+          <span>Meeting</span>
+        </button>
+        <button class="nav-item" data-view="history">
+          <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span>History</span>
+        </button>
+      </nav>
+
+      <div class="side-foot">
+        <button id="new-chat" class="ghost-btn">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+          <span>New chat</span>
+        </button>
+        <div id="auth-note" class="auth-note"></div>
+      </div>
+    </aside>
+
+    <!-- ── Main ───────────────────────────────────────────────────── -->
+    <main id="main">
+      <!-- Ask -->
+      <section class="view active" id="view-ask">
+        <div id="ask-thread" class="thread">
+          <div class="empty">
+            <div class="empty-mark">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
+            </div>
+            <h2>How can I help?</h2>
+            <p>Ask anything, paste or attach a screenshot, or capture your screen.</p>
+          </div>
+        </div>
+        <div id="ask-attachments" class="attachments hidden"></div>
+        <form id="ask-form" class="composer">
+          <button type="button" id="ask-attach" class="ic" title="Attach image" aria-label="Attach image">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+          </button>
+          <button type="button" id="ask-capture" class="ic" title="Capture screen" aria-label="Capture screen">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg>
+          </button>
+          <textarea id="ask-input" rows="1" placeholder="Ask a question…  (Enter to send, Shift+Enter for newline)"></textarea>
+          <button type="submit" id="ask-send" class="send" title="Send">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </button>
+        </form>
+        <input type="file" id="ask-file" accept="image/*" multiple hidden />
+      </section>
+
+      <!-- Meeting -->
+      <section class="view" id="view-meeting">
+        <header class="view-head">
+          <h1>Meeting</h1>
+          <p>Live transcription in your browser, summarized by AI — notes, decisions, action items.</p>
+        </header>
+        <div class="meeting-bar">
+          <button id="mt-toggle" class="primary">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
+            <span>Start listening</span>
+          </button>
+          <button id="mt-summarize" class="btn">Summarize now</button>
+          <label class="auto"><input type="checkbox" id="mt-auto" checked /> Auto‑summarize</label>
+          <span id="mt-status" class="muted"></span>
+          <span class="grow"></span>
+          <button id="mt-save" class="btn">Save</button>
+          <button id="mt-clear" class="btn">Clear</button>
+        </div>
+        <div class="meeting-grid">
+          <div class="pane">
+            <div class="pane-label">Live transcript</div>
+            <div id="mt-transcript" class="transcript"><div class="empty small">Press “Start listening”. Speech is transcribed by your browser — no upload, no API key.</div></div>
+          </div>
+          <div class="pane">
+            <div class="pane-label">Notes &amp; summary</div>
+            <div id="mt-summary" class="notes"><div class="empty small">Summaries appear here.</div></div>
+          </div>
+        </div>
+        <form id="mt-ask-form" class="composer">
+          <textarea id="mt-ask" rows="1" placeholder="Ask about this meeting…  (Enter to send)"></textarea>
+          <button type="submit" class="send" title="Ask">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </button>
+        </form>
+      </section>
+
+      <!-- History -->
+      <section class="view" id="view-history">
+        <header class="view-head"><h1>History</h1><p>Saved meetings and chats, stored locally in this browser.</p></header>
+        <div id="history-list" class="history-list"></div>
+      </section>
+    </main>
+  </div>
+  <script src="/app.js"></script>
+</body>
+</html>
